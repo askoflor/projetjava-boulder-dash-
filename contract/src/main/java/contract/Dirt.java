@@ -1,4 +1,4 @@
-package main;
+package contract;
  
 
 public class Dirt implements Cell{

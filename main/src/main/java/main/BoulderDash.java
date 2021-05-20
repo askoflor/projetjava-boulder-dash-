@@ -1,8 +1,14 @@
 //appel du package
 package main;
  
+import controller.GameModel;
+import view.View;
+
 // importation des different package
 import javax.swing.*;
+
+import controller.GameModel;
+
 import java.awt.event.*;
 import java.awt.BorderLayout;
 
@@ -109,31 +115,45 @@ public class BoulderDash extends JFrame implements KeyListener, ActionListener {
             keyRight();
         } else if(key == KeyEvent.VK_R) {
         	
-        	// on 
+        	// on n'appelle de nouveau notre element 
+        	// GameModel(getLevel(currentLevel)) recoit les position et GameModel l'implemente ..il renvoit deux valeur x et y 
             gameModel = new GameModel(getLevel(currentLevel));
+            
+            // on rajoute un nouveau element dans notre fenetre view
             view.updateCave(gameModel.getCaveArray());
+            
+            // on redefini affichage des element comme le nombre de diament collecter et le temps mise
             diamonds.setText(gameModel.getDiamonds());
+            
+            //on affiche le nombre de piere detruit
             steps.setText(gameModel.getSteps());
         }    
     }
+       //on appelle les methode ecoute clavier
     public void keyReleased(KeyEvent e) {
     }
     public void keyTyped(KeyEvent e) {
     }
+    
+    //
     private void update() {
         view.updateCave(gameModel.getCaveArray());
         diamonds.setText(gameModel.getDiamonds());
         steps.setText(gameModel.getSteps());
+        
+        //on verifi si le niveau est complet
         if(gameModel.getLevelCompleted()) {
+        	
+        	// on compare avec le niveau max
             if(currentLevel == MAX_LEVELS) {
-                JOptionPane.showMessageDialog(this, "Congratulations! You've completed the game.\nClick OK to return to level 1.");
+                JOptionPane.showMessageDialog(this, "god You finich the game.\nClick OK to return to level 1.");
                 currentLevel = 1;
                 gameModel = new GameModel(getLevel(currentLevel));
                 view.updateCave(gameModel.getCaveArray());
                 diamonds.setText(gameModel.getDiamonds());
                 steps.setText(gameModel.getSteps());
             } else {
-                JOptionPane.showMessageDialog(this, "Congratulations! You've completed the level.\nClick OK to move on to the next one.");
+                JOptionPane.showMessageDialog(this, "yes man you have true level.\nClick OK to move on to the next one.");
                 currentLevel++;
                 gameModel = new GameModel(getLevel(currentLevel));
                 view.updateCave(gameModel.getCaveArray());

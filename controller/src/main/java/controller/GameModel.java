@@ -1,4 +1,13 @@
-package main;
+package controller;
+import contract.Cell;
+import contract.Wall;
+import contract.EmptySpc;
+import contract.Boulder;
+import contract.Diamond;
+import contract.Dirt;
+import contract.ExitLocked;
+import contract.ExitOpen;
+import contract.Rockford;
  
 
 public class GameModel {       
@@ -43,6 +52,8 @@ public class GameModel {
              }
          }
     }
+    
+    // on implemente les positions
     public void moveUp() {
         if(gameOver || levelCompleted) {
             return;
@@ -257,6 +268,10 @@ public class GameModel {
             return;
         }
     }
+    
+    // fin de implementation des mouvement en fonction des position
+    
+    
     public void showGameStatus() {
         for(int y = 0; y < CAVE_SIZE; y++) {
             for(int x = 0; x < CAVE_SIZE; x++) {
@@ -280,6 +295,7 @@ public class GameModel {
             }    
             System.out.println();
         }
+        // on renvoi a la vue les resultat suivant 
         System.out.println();
         System.out.println("Diamonds Found: " + diamondsFound + " out of " + diamondsCount + ".");
         System.out.println("Level Completed: " + levelCompleted);
@@ -311,6 +327,8 @@ public class GameModel {
     public boolean getGameOver() {
         return gameOver;
     }
+    // on returne a la vue tous ces elements
+    // on returne les element telque le nombre de diament collecte et temps mis
     public String getDiamonds() {
         return diamondsFound+" out of "+diamondsCount+" diamonds collected.";
     }
@@ -391,6 +409,8 @@ public class GameModel {
             }
         }
     }
+    
+    //on implemente une methode pour replace les element dans notre fenetre on redefinit le comportement des images
     public int[][] getCaveArray() {
         int[][] myArray = new int[CAVE_SIZE][CAVE_SIZE];
         for(int y = 0; y < CAVE_SIZE; y++) {
@@ -398,6 +418,7 @@ public class GameModel {
                 if(cave[x][y] instanceof EmptySpc) {
                     myArray[x][y] = 7;
                 } else if(cave[x][y] instanceof Rockford) {
+                	// on indique a quoi ressemble chaque image
                     myArray[x][y] = 1;
                 } else if(cave[x][y] instanceof Diamond) {
                     myArray[x][y] = 4;
