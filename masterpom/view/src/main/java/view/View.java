@@ -1,88 +1,44 @@
 package view;
+ 
 
-import java.awt.event.KeyEvent;
-
-import javax.swing.SwingUtilities;
-
-import contract.ControllerOrder;
-import contract.IController;
-import contract.IModel;
-import contract.IView;
-
-/**
- * The Class View.
- *
- */
-public final class View implements IView, Runnable {
-
-	/** The frame. */
-	public final ViewFrame viewFrame;
-
-	/**
-	 * Instantiates a new view.
-	 *
-	 * @param model
-	 *          the model
-	 */
-	public View(final IModel model) {
-		this.viewFrame = new ViewFrame(model);
-		SwingUtilities.invokeLater(this);
-	}
-
-	/**
-	 * Key code to controller order.
-	 *
-	 * @param keyCode
-	 *          the key code
-	 * @return the controller order
-	 */
-	protected static ControllerOrder keyCodeToControllerOrder(final int keyCode) {
-		switch (keyCode) {
-			case KeyEvent.VK_Z:
-				return ControllerOrder.Top;
-			case KeyEvent.VK_D:
-				return ControllerOrder.Right;
-			case KeyEvent.VK_S:
-				return ControllerOrder.Bottom;
-			case KeyEvent.VK_Q:
-				return ControllerOrder.Left;
-			default:
-				return null;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see contract.IView#printMessage(java.lang.String)
-	 */
-	public void printMessage(final String message) {
-		this.viewFrame.printMessage(message);
-		this.viewFrame.getGraphics().drawString(message, 200, 200);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run() {
-		this.viewFrame.setVisible(true);
-	}
-
-	/**
-	 * Sets the controller.
-	 *
-	 * @param controller
-	 *          the new controller
-	 */
-	public void setController(final IController controller) {
-		this.viewFrame.setController(controller);
-	}
-
-	public void actualiser() {
-		this.viewFrame.repaint();
-	}
-	
-	
+import javax.swing.*;
+import java.awt.GridLayout;
+public class View extends JPanel {
+    public static final int CAVE_SIZE = 20;
+    // on appelle JLabel au lieu de mettre des text dans les conteneur on met des tableau
+    private JLabel[][] labels;
+    private Icon[] icons;
+    public View(int[][] cave) {
+        icons = new Icon[9];
+        icons[0] = new ImageIcon("./images/stone.png");
+        icons[1] = new ImageIcon("./images/Gauche.png");
+        icons[3] = new ImageIcon("./images/ground.png");
+        icons[4] = new ImageIcon("./images/diamond.png");
+        icons[5] = new ImageIcon("./images/kk.png");
+        icons[6] = new ImageIcon("./images/ll.png");
+        icons[7] = new ImageIcon("./images/voidGround.png");
+        icons[8] = new ImageIcon("./images/unbreakableWall.png");
+        
+        // setLayout affecter une nouvelle mise en page, a notre Container
+        setLayout(new GridLayout(CAVE_SIZE,CAVE_SIZE));
+        
+        // on itialise notre labels avec 
+        labels = new JLabel[CAVE_SIZE][CAVE_SIZE];
+        
+        //on construit  notre fenetre avec 20*20 case
+        for (int x = 0; x < CAVE_SIZE; x++) {
+            for (int y = 0; y < CAVE_SIZE; y++) {
+                labels[x][y] = new JLabel(icons[cave[y][x]]);
+                add(labels[x][y]);
+            }     
+        }
+    }
+    // on appel une autre fenetre avec les image
+    public void updateCave(int[][] newCaveArray) {
+        for (int x = 0; x < CAVE_SIZE; x++) {
+            for (int y = 0; y < CAVE_SIZE; y++) {
+                labels[x][y].setIcon(icons[newCaveArray[y][x]]);
+            }
+        }
+    }
 }

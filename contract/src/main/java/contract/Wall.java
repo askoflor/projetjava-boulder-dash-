@@ -1,5 +1,4 @@
-package main;
- 
+package contract;
 
 public class Wall implements Cell{
 }
